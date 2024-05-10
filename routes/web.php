@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Corporate_SponsorController;
+use App\Http\Controllers\SMMEController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,3 +21,18 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+//admin
+Route::middleware(['auth','role:admin'])->group(function(){
+   Route::get('/admin/dashboard',[AdminController::class,'dashboard']);
+});
+
+//smme
+Route::middleware(['auth','role:smme'])->group(function(){
+    Route::get('/smme/dashboard',[SMMEController::class,'dashboard']);
+});
+
+//Corporate Sponsor
+Route::middleware(['auth','role:corporate_sponsor'])->group(function(){
+    Route::get('/corporate_sponsor/dashboard',[Corporate_SponsorController::class,'dashboard']);
+});
